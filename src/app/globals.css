@@ -1,0 +1,539 @@
+@import "tailwindcss";
+
+/* Base variables for light theme */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --background-secondary: #f9fafb;
+  --background-tertiary: #f3f4f6;
+  --border: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+}
+
+/* Dark theme variables */
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --background-secondary: #1e293b;
+  --background-tertiary: #334155;
+  --border: #475569;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+}
+
+/* Apply theme to body and html */
+html,
+body,
+#__next,
+main,
+div {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Force theme colors on all major layout elements */
+.theme-bg {
+  background-color: var(--background) !important;
+}
+
+.theme-bg-secondary {
+  background-color: var(--background-secondary) !important;
+}
+
+.theme-text {
+  color: var(--text-primary) !important;
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.theme-border {
+  border-color: var(--border) !important;
+}
+
+.theme-button {
+  background-color: var(--background-tertiary) !important;
+}
+
+.theme-button-text {
+  color: var(--text-primary) !important;
+}
+
+/* Prose styles for markdown preview */
+.prose {
+  color: #374151;
+  max-width: none;
+}
+
+.prose h1 {
+  color: #111827;
+  font-weight: 800;
+  font-size: 2.25em;
+  margin-top: 0;
+  margin-bottom: 0.8888889em;
+  line-height: 1.1111111;
+}
+
+.prose h2 {
+  color: #111827;
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.3333333;
+}
+
+.prose h3 {
+  color: #111827;
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  line-height: 1.6;
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: #111827;
+  border-left-width: 0.25rem;
+  border-left-color: #e5e7eb;
+  quotes: "\201C""\201D""\2018""\2019";
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+
+.prose code {
+  color: #111827;
+  font-weight: 600;
+  font-size: 0.875em;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.375rem;
+  border-radius: 0.375rem;
+}
+
+.prose pre {
+  color: #e5e7eb;
+  background-color: #1f2937;
+  overflow-x: auto;
+  font-weight: 400;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
+  border-radius: 0.375rem;
+  padding: 0.8571429em 1.1428571em;
+}
+
+.prose pre code {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  padding: 0;
+  font-weight: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.prose ul, .prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Dark mode prose styles */
+.dark .prose {
+  color: #d1d5db;
+}
+
+.dark .prose h1, 
+.dark .prose h2, 
+.dark .prose h3, 
+.dark .prose h4, 
+.dark .prose h5, 
+.dark .prose h6 {
+  color: #f9fafb;
+}
+
+.dark .prose strong {
+  color: #f9fafb;
+}
+
+.dark .prose blockquote {
+  color: #d1d5db;
+  border-left-color: #4b5563;
+}
+
+.dark .prose code {
+  color: #f9fafb;
+  background-color: #374151;
+}
+
+.dark .prose a {
+  color: #60a5fa;
+}
+
+.dark .prose a:hover {
+  color: #93c5fd;
+}
+
+/* Preview content styling - replaces prose classes */
+.preview-content {
+  line-height: 1.7;
+}
+
+.preview-content h1 {
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 2.25em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  line-height: 1.1111111;
+}
+
+.preview-content h2 {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.3333333;
+}
+
+.preview-content h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.preview-content h4,
+.preview-content h5,
+.preview-content h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.preview-content p {
+  color: var(--text-primary);
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.preview-content ul,
+.preview-content ol {
+  color: var(--text-primary);
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1.625em;
+}
+
+.preview-content ul {
+  list-style-type: disc;
+}
+
+.preview-content ol {
+  list-style-type: decimal;
+}
+
+.preview-content li {
+  color: var(--text-primary);
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.preview-content blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-primary);
+  border-left-width: 0.25rem;
+  border-left-color: var(--border);
+  border-left-style: solid;
+  quotes: "\201C""\201D""\2018""\2019";
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-left: 1em;
+}
+
+.preview-content code {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.875em;
+  background-color: var(--background-tertiary);
+  padding: 0.25rem 0.375rem;
+  border-radius: 0.375rem;
+}
+
+.preview-content pre {
+  background-color: var(--background-tertiary);
+  overflow-x: auto;
+  font-weight: 400;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+  margin-top: 1.7142857em;
+  margin-bottom: 1.7142857em;
+  border-radius: 0.375rem;
+  padding: 0.8571429em 1.1428571em;
+}
+
+.preview-content pre code {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  padding: 0;
+  font-weight: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.preview-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.preview-content a:hover {
+  color: #1d4ed8;
+}
+
+.preview-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.preview-content em {
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+/* Footnotes styles */
+.preview-content .footnotes {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.preview-content .footnotes hr {
+  display: none; /* We use border-top instead */
+}
+
+.preview-content .footnotes ol {
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.preview-content .footnotes li {
+  margin: 0.5rem 0;
+  position: relative;
+}
+
+.preview-content .footnote-ref {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.preview-content .footnote-ref:hover {
+  text-decoration: underline;
+}
+
+.preview-content .footnote-backref {
+  color: #2563eb;
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+.preview-content .footnote-backref:hover {
+  text-decoration: underline;
+}
+
+/* Table styles */
+.preview-content table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background-color: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.preview-content thead {
+  background-color: var(--background-secondary);
+  border-bottom: 2px solid var(--border);
+}
+
+.preview-content th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-right: 1px solid var(--border);
+  background-color: var(--background-secondary);
+}
+
+.preview-content th:last-child {
+  border-right: none;
+}
+
+.preview-content td {
+  padding: 0.75rem 1rem;
+  color: var(--text-primary);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.preview-content td:last-child {
+  border-right: none;
+}
+
+.preview-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.preview-content tbody tr:nth-child(even) td {
+  background-color: var(--background-secondary);
+}
+
+.preview-content tbody tr:hover td {
+  background-color: var(--background-tertiary);
+}
+
+/* Task list styles */
+.preview-content ul.task-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0;
+}
+
+.preview-content li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.5rem 0;
+  padding: 0.25rem 0;
+  list-style: none;
+}
+
+.preview-content li.task-list-item input[type="checkbox"] {
+  margin: 0 0.75rem 0 0;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 0.25rem;
+  background-color: var(--background);
+  cursor: default;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+
+.preview-content li.task-list-item input[type="checkbox"]:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.preview-content li.task-list-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.preview-content li.task-list-item .task-text {
+  flex: 1;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.preview-content li.task-list-item-checked .task-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Horizontal rule (divider) styles */
+.preview-content hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 2rem 0;
+  opacity: 0.8;
+}
+
+.preview-content hr:hover {
+  opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
