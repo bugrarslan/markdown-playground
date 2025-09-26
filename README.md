@@ -1,9 +1,9 @@
-# Live Markdown Playground
+# Markdown Playground
 
 A **client-only**, real-time Markdown editor with live HTML preview built with React, TypeScript, and Next.js. No backend required—everything runs in the browser.
 
 ## 🚀 **Live Demo**
-Visit the deployed application: [Live Markdown Playground](https://your-deployed-url.com)
+Visit the deployed application: [Markdown Playground](https://markdown-playground-swart.vercel.app/)
 
 ## ✨ **Features**
 
@@ -113,8 +113,8 @@ public/
 ### **Installation & Development**
 ```bash
 # Clone the repository
-git clone https://github.com/bugrarslan/sevenapps-react-case-study.git
-cd sevenapps-react-case-study
+git clone https://github.com/bugrarslan/markdown-playground.git
+cd markdown-playground
 
 # Install dependencies
 npm install
