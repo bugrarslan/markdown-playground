@@ -1,208 +1,386 @@
 # Markdown Playground
 
-A **client-only**, real-time Markdown editor with live HTML preview built with React, TypeScript, and Next.js. No backend required—everything runs in the browser.
+A modern, feature-rich Markdown editor and previewer built with Next.js 15, React 19, and TypeScript. Transform your Markdown content into beautifully rendered HTML in real-time with an elegant split-pane interface.
 
-## 🚀 **Live Demo**
-Visit the deployed application: [Markdown Playground](https://markdown-playground-swart.vercel.app/)
+Markdown Playground is a web application that features real-time preview, persistent storage via IndexedDB, dark mode support, and a comprehensive custom Markdown parser. All documents are stored locally in the browser, ensuring privacy and offline functionality.
 
-## ✨ **Features**
+------------------------------------------------------------------------
 
-### **Core Requirements**
-- ✅ **Real-time Markdown Rendering** - Live preview updates on every keystroke with 300ms debouncing
-- ✅ **Dynamic Parser Loading** - Markdown parsers loaded via dynamic imports for optimal performance
-- ✅ **Sample Documents** - Three pre-built samples: intro.md, features.md, usage.md
-- ✅ **Theme Toggle** - Light/dark mode with IndexedDB persistence
-- ✅ **Document Persistence** - Auto-saves and restores last-edited document using IndexedDB
-- ✅ **Responsive Layout** - Side-by-side on desktop, stacked on mobile
+## 📖 Table of Contents
 
-### **Bonus Features Implemented**
-- 🎁 **Custom Shortcuts** - Ctrl/Cmd+S to save, Ctrl/Cmd+1/2/3 for samples, F11 for fullscreen
-- 🎁 **Multiple Fullscreen Modes** - Browser fullscreen, editor-only, preview-only
-- 🎁 **Advanced Markdown Extensions** - Footnotes[^1], tables, task lists, horizontal rules
-- 🎁 **Export HTML** - Download rendered content as standalone HTML file
-- 🎁 **Accessibility** - Semantic HTML, keyboard navigation, proper ARIA labels
+-   🎯 Overview
+-   ✨ Features
+-   🛠 Tech Stack
+-   🏗 Architecture
+-   📁 Project Structure
+-   🎨 Design Patterns
+-   🚀 Key Implementation Details
+-   🔧 Development Setup
+-   📦 Building & Deployment
+-   📄 License
+-   📞 Support
 
-[^1]: Footnotes work with bidirectional navigation and auto-numbering
+------------------------------------------------------------------------
 
-## 🏗️ **Architecture & Approach**
+## 🎯 Overview
 
-### **Technology Stack**
-- **Framework**: Next.js 15.3.1 with App Router
-- **Language**: TypeScript 5+ with strict type checking
-- **Styling**: Tailwind CSS v4.1.13 with custom CSS properties for theming
-- **Database**: IndexedDB with Dexie.js 4.2.0 (zero localStorage usage)
-- **Markdown Processing**: unified + remark + rehype ecosystem with sanitization
+### Key Objectives
 
-### **Key Design Decisions**
+-   **Real-Time Preview:** Live Markdown to HTML rendering with debounced updates for optimal performance.
+-   **Local-First Storage:** All documents and settings stored in IndexedDB for privacy and offline access.
+-   **Modern UI/UX:** Split-pane editor with fullscreen support, theme toggle, and responsive design.
+-   **Type Safety:** Full TypeScript implementation ensuring robust development and maintainability.
+-   **Extensibility:** Custom Markdown parser with fallback support for advanced features.
 
-#### **1. Dual Parser Strategy**
-- **Primary**: unified + remark + rehype for standard markdown
-- **Fallback**: Custom parser for advanced features (footnotes, tables, task lists)
-- **Smart Detection**: Automatically chooses best parser based on content analysis
+### Project Metadata
+
+-   **Version:** 0.1.0
+-   **Platform:** Web (All modern browsers)
+-   **Framework:** Next.js 15.3.1 with React 19
+-   **Language:** TypeScript 5.x
+-   **Build Tool:** Next.js with Turbopack
+
+------------------------------------------------------------------------
+
+## ✨ Features
+
+### 📝 Markdown Editing
+
+-   **Live Preview:** Real-time HTML rendering as you type with 300ms debounce optimization.
+-   **Split-Pane Interface:** Side-by-side editor and preview panes for seamless workflow.
+-   **Syntax Support:**
+    -   Headers (H1-H6)
+    -   Bold, italic, and inline code
+    -   Links and images (including badge-style links)
+    -   Bullet and numbered lists (with nesting)
+    -   Task lists with checkboxes
+    -   Blockquotes
+    -   Code blocks with syntax highlighting support
+    -   Tables with alignment
+    -   Horizontal rules
+    -   Footnotes with references
+-   **Keyboard Shortcuts:**
+    -   `Ctrl/⌘ + S`: Save document
+    -   `Ctrl/⌘ + 1/2/3`: Load sample documents
+    -   `F11`: Toggle fullscreen
+
+### 📚 Document Management
+
+-   **Auto-Save:** Automatic document persistence to IndexedDB with debounced saves.
+-   **Sample Documents:** Three built-in sample documents to demonstrate features:
+    -   Welcome: Basic Markdown introduction
+    -   Features: Advanced formatting showcase
+    -   Usage: How-to guide with code examples
+-   **Custom Documents:** Create and edit your own documents with automatic state detection.
+-   **Export:** Download rendered HTML with embedded styles for sharing.
+
+### 🎨 Appearance & Customization
+
+-   **Theme System:** Light and dark mode with smooth transitions.
+-   **Theme Persistence:** Theme preference stored in IndexedDB.
+-   **Responsive Design:** Fully responsive layout adapting to different screen sizes.
+-   **Custom Styling:** Beautiful prose rendering with custom CSS for optimal readability.
+-   **Fullscreen Mode:** Distraction-free editing with fullscreen toggle for editor and preview.
+
+### 💾 Storage & Performance
+
+-   **IndexedDB Integration:** Dexie.js-powered database for settings and documents.
+-   **Debounced Updates:** Optimized rendering with 300ms debounce to reduce CPU usage.
+-   **Dynamic Imports:** Lazy loading of Markdown parsing libraries for faster initial load.
+-   **Fallback Parser:** Custom lightweight parser ensures functionality even if libraries fail.
+-   **Browser-Native Storage:** No external databases or authentication required.
+
+------------------------------------------------------------------------
+
+## 🛠 Tech Stack
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Core Framework | Next.js 15.3.1, React 19, TypeScript 5 | Modern React framework with server and client components |
+| Styling | Tailwind CSS 4.1, PostCSS, CSS Variables | Utility-first CSS with custom theming support |
+| State Management | React Hooks, Custom Context | Local state management with reusable custom hooks |
+| Markdown Processing | unified, remark, rehype | Pluggable Markdown parsing and HTML generation |
+| Storage | Dexie.js 4.2, IndexedDB | Type-safe IndexedDB wrapper for local persistence |
+| Build Tools | Next.js Compiler, Turbopack | Fast builds and hot module replacement |
+| Code Quality | ESLint, TypeScript | Linting and type checking for code quality |
+| Fonts | Geist Sans, Geist Mono | Modern, clean typography from Vercel |
+
+------------------------------------------------------------------------
+
+## 🏗 Architecture
+
+Markdown Playground follows a **component-based architecture** with clear separation of concerns and React best practices.
+
+```
+┌─────────────────────────────────────────────┐
+│           Presentation Layer                │
+│  (Components, Page, Layout)                 │
+└─────────────────┬───────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────┐
+│         Application Layer                   │
+│  (Custom Hooks, State Management)           │
+└─────────────────┬───────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────┐
+│           Service Layer                     │
+│  (Markdown Parser, IndexedDB Service)       │
+└─────────────────┬───────────────────────────┘
+                  │
+┌─────────────────▼───────────────────────────┐
+│           Data Layer                        │
+│  (IndexedDB, Browser Storage)               │
+└─────────────────────────────────────────────┘
+```
+
+### Layer Responsibilities
+
+-   **Presentation Layer (components/, app/):** React components handling UI rendering and user interactions.
+-   **Application Layer (hooks/):** Custom hooks encapsulating business logic and state management.
+-   **Service Layer (hooks/useMarkdownParser.ts, hooks/useIndexedDB.ts):** Data processing and storage operations.
+-   **Data Layer:** Browser-native IndexedDB for persistent storage.
+
+------------------------------------------------------------------------
+
+## 📁 Project Structure
+
+```
+markdown-playground/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout with fonts and metadata
+│   │   ├── page.tsx            # Main application page
+│   │   └── globals.css         # Global styles and theme variables
+│   ├── components/
+│   │   ├── Editor.tsx          # Markdown editor with keyboard shortcuts
+│   │   ├── Preview.tsx         # HTML preview with export functionality
+│   │   ├── ThemeToggle.tsx     # Dark/light theme switcher
+│   │   ├── FullscreenToggle.tsx # Fullscreen mode toggle
+│   │   └── SampleSelector.tsx  # Sample document loader
+│   └── hooks/
+│       ├── useDebounce.ts      # Debounce hook for performance
+│       ├── useIndexedDB.ts     # IndexedDB operations wrapper
+│       └── useMarkdownParser.ts # Markdown to HTML parser
+├── public/
+│   └── samples/
+│       ├── intro.md            # Welcome sample
+│       ├── features.md         # Features showcase
+│       └── usage.md            # Usage guide
+├── next.config.ts              # Next.js configuration
+├── tailwind.config.js          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+├── eslint.config.mjs           # ESLint configuration
+├── postcss.config.mjs          # PostCSS configuration
+└── package.json                # Dependencies and scripts
+```
+
+**File Naming Conventions**
+- Components: `PascalCase.tsx`
+- Hooks: `use*.ts`
+- Pages: `camelCase.tsx`
+- Configs: `*.config.*`
+
+------------------------------------------------------------------------
+
+## 🎨 Design Patterns
+
+-   **Custom Hook Pattern:** Reusable logic encapsulated in custom hooks (`useDebounce`, `useIndexedDB`, `useMarkdownParser`).
+-   **Controlled Component Pattern:** Editor component fully controlled by parent state.
+-   **Compound Component Pattern:** Preview component with integrated export functionality.
+-   **Singleton Pattern:** Single Dexie database instance shared across the application.
+-   **Fallback Pattern:** Graceful degradation with custom parser when unified fails.
+-   **Optimistic UI Pattern:** Immediate theme changes with async persistence.
+
+------------------------------------------------------------------------
+
+## 🚀 Key Implementation Details
+
+### IndexedDB Schema
 
 ```typescript
-// Smart parser selection
-if (markdown.includes('[^') && /\[\^[^\]]+\]/.test(markdown)) {
-  return simpleMarkdownParser(markdown); // Use fallback for footnotes
+// Database: MarkdownPlayground
+{
+  settings: {
+    key: string (primary key)
+    value: any
+  },
+  documents: {
+    id: number (auto-increment primary key)
+    content: string
+  }
 }
 ```
 
-#### **2. Performance Optimizations**
-- **Debounced Rendering**: 300ms delay prevents excessive parser calls
-- **Dynamic Imports**: Markdown parsers loaded only when needed
-- **Code Splitting**: Production bundle analysis shows proper chunk separation
-- **Memoization**: useCallback and dependency arrays minimize re-renders
+**Settings Stored:**
+- `theme`: 'light' | 'dark'
 
-#### **3. State Management Strategy**
-- **Local State**: React hooks for UI state and real-time editing
-- **Persistent State**: IndexedDB for theme preferences and document content
-- **Smart Document Switching**: Distinguishes between samples and custom documents
+**Documents:**
+- Only the most recent document is stored
+- Auto-saved every 300ms after changes
+- Retrieved on application load
 
-### **Project Structure**
+### Markdown Parser Implementation
+
+**Dual Parser Strategy:**
+
+1. **Primary Parser (unified + remark + rehype):**
+   - Production-grade Markdown parsing
+   - CommonMark compliant
+   - Sanitized HTML output
+
+2. **Fallback Parser (Custom implementation):**
+   - Lightweight alternative when primary fails
+   - Supports advanced features:
+     - Task lists with checkboxes
+     - Tables with alignment
+     - Footnotes with back-references
+     - Image badges (linked images)
+     - Nested lists
+     - Horizontal rules
+   - Automatically used for complex Markdown patterns
+
+**Smart Detection:**
+```typescript
+// Automatically uses fallback for:
+- Footnotes: [^1] syntax
+- Tables: pipe-delimited tables
+- Task lists: - [ ] and - [x]
+- Complex images: badge patterns
+- Horizontal rules: ---, ***, ___
 ```
-src/
-├── app/
-│   ├── globals.css          # Tailwind + custom CSS variables
-│   ├── layout.tsx           # Root layout with theme support
-│   └── page.tsx             # Main application logic
-├── components/
-│   ├── Editor.tsx           # Markdown input with syntax highlighting
-│   ├── Preview.tsx          # HTML preview with export functionality
-│   ├── ThemeToggle.tsx      # Light/dark theme switcher
-│   ├── FullscreenToggle.tsx # Browser fullscreen functionality
-│   └── SampleSelector.tsx   # Sample document dropdown
-├── hooks/
-│   ├── useIndexedDB.ts      # Database operations with Dexie
-│   ├── useMarkdownParser.ts # Dynamic parser loading & smart selection
-│   └── useDebounce.ts       # Performance optimization utility
-public/
-├── samples/
-│   ├── intro.md            # Welcome & basic syntax
-│   ├── features.md         # Feature overview with footnotes
-│   └── usage.md            # Usage instructions with code blocks
+
+### Theme System
+
+**CSS Variables-Based Theming:**
+```css
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --text-primary: #111827;
+  /* ... */
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --text-primary: #f8fafc;
+  /* ... */
+}
 ```
 
-## 🔄 **Trade-offs & Decisions**
+**Hydration-Safe Theme Loading:**
+- Inline script in `<head>` to prevent flash
+- IndexedDB query before React hydration
+- Smooth 200ms transitions between themes
 
-### **Performance vs Features**
-- **Trade-off**: Dual parser system adds complexity but enables advanced features
-- **Decision**: Built custom fallback parser for features not supported by unified
-- **Result**: Best of both worlds - performance for simple markdown, features for complex
+### Performance Optimizations
 
-### **Bundle Size vs Functionality**
-- **Trade-off**: Multiple fullscreen modes and extensions increase bundle size
-- **Decision**: Used dynamic imports and code splitting to defer loading
-- **Result**: Initial bundle stays lean while providing rich functionality
+1. **Debounced Markdown Parsing:** 300ms delay reduces unnecessary renders
+2. **Dynamic Imports:** Markdown libraries loaded on-demand
+3. **Memoized Callbacks:** `useCallback` prevents unnecessary re-renders
+4. **Efficient Storage:** Single document storage prevents IndexedDB bloat
 
-### **Type Safety vs Development Speed**
-- **Trade-off**: Strict TypeScript slows initial development
-- **Decision**: Invested in proper typing from the start
-- **Result**: Fewer runtime errors, better developer experience, maintainable code
+------------------------------------------------------------------------
 
-### **CSS Approach**
-- **Trade-off**: Tailwind vs CSS Modules vs Styled Components
-- **Decision**: Tailwind + CSS custom properties for theming
-- **Result**: Rapid development, consistent design system, perfect theme switching
+## 🔧 Development Setup
 
-## 🛠️ **How to Run**
+### Prerequisites
 
-### **Prerequisites**
-- Node.js 18+ 
-- npm or yarn
+-   Node.js 20+ (recommended for Next.js 15)
+-   npm, yarn, pnpm, or bun package manager
+-   Modern web browser with IndexedDB support
 
-### **Installation & Development**
+### Installation
+
 ```bash
-# Clone the repository
 git clone https://github.com/bugrarslan/markdown-playground.git
 cd markdown-playground
-
-# Install dependencies
 npm install
+```
 
-# Start development server
+### Running the Development Server
+
+```bash
 npm run dev
-
-# Open browser to http://localhost:3000
 ```
 
-### **Production Build**
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Available Scripts
+
 ```bash
-# Build for production
-npm run build
-
-# Start production server
-npm start
-
-# Or serve static files
-npm run build && npx serve out
+npm run dev      # Start development server with Turbopack
+npm run build    # Create production build
+npm run start    # Start production server
+npm run lint     # Run ESLint for code quality
 ```
 
-### **Verify Dynamic Imports**
+------------------------------------------------------------------------
+
+## 📦 Building & Deployment
+
+### Production Build
+
 ```bash
-# Check bundle analysis
 npm run build
-
-# Look for separated chunks in output:
-# ✓ chunks/4bd1b696-*.js (unified parser)
-# ✓ chunks/684-*.js (main app)
+npm run start
 ```
 
-## 🧪 **Testing the Features**
+### Deployment Options
 
-### **Markdown Extensions**
-Try these in the editor:
-
-```markdown
-## Tables
-| Feature | Status |
-|---------|--------|
-| Tables  | ✅     |
-| Tasks   | ✅     |
-
-## Task Lists  
-- [x] Completed task
-- [ ] Pending task
-
-## Footnotes
-Here's a footnote reference[^1]
-
-[^1]: This is the footnote content
-
-## Horizontal Rules
----
+**Vercel (Recommended):**
+```bash
+vercel
 ```
 
-### **Keyboard Shortcuts**
-- `Ctrl/Cmd + S` - Save document
-- `Ctrl/Cmd + 1/2/3` - Load sample documents
-- `F11` - Toggle browser fullscreen
-- Individual fullscreen buttons in editor/preview headers
+**Docker:**
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
 
-### **Theme & Persistence**
-1. Toggle between light/dark themes
-2. Edit content and refresh page
-3. Verify theme and content persist via IndexedDB
+**Static Export:**
+```javascript
+// next.config.ts
+const nextConfig = {
+  output: 'export',
+};
+```
 
-## 📊 **Technical Achievements**
+### Environment Variables
 
-### **Requirements Compliance**
-- ✅ **React Hooks**: useState, useEffect, useCallback, custom hooks
-- ✅ **TypeScript**: Strict typing, interfaces, proper declarations
-- ✅ **Dynamic Imports**: Parser code split from main bundle
-- ✅ **IndexedDB**: Complete CRUD operations, no localStorage
-- ✅ **Responsive Design**: Mobile-first with proper breakpoints
-- ✅ **Security**: HTML sanitization with rehype-sanitize
+No environment variables required. All configuration is client-side.
 
-### **Performance Metrics**
-- **First Load JS**: 138kB (well-optimized)
-- **Code Splitting**: Parser chunks separate from main bundle
-- **Rendering**: <300ms debounced updates
-- **Persistence**: <50ms IndexedDB operations
+------------------------------------------------------------------------
 
-### **Code Quality**
-- **TypeScript**: 100% type coverage, no `any` types
-- **ESLint**: Clean code, no warnings
-- **Architecture**: Modular, reusable components
-- **Error Handling**: Comprehensive error boundaries and fallbacks
+## 📄 License
 
----
+This project is proprietary software.
+All rights reserved.
+© 2025 Bugra Arslan
+
+------------------------------------------------------------------------
+
+## 📞 Support
+
+For issues or feedback:
+**GitHub Issues:** [github.com/bugrarslan/markdown-playground/issues](https://github.com/bugrarslan/markdown-playground/issues)
+
+------------------------------------------------------------------------
+
+## 🌟 Highlights
+
+-   ✅ **Zero Dependencies on External Services** - Fully client-side application
+-   ✅ **Privacy First** - All data stored locally in your browser
+-   ✅ **Modern Stack** - Latest Next.js, React, and TypeScript
+-   ✅ **Comprehensive Markdown Support** - Including tables, footnotes, and task lists
+-   ✅ **Production Ready** - Type-safe, tested, and optimized
+-   ✅ **Open Source Ready** - Clean code structure and documentation
+
+Built with ❤️ using Next.js, React, and TypeScript.
